@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.maheshchukka.rickandmorty.databinding.FragmentLocationsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LocationsFragment : Fragment() {
 
     private var _binding: FragmentLocationsBinding? = null
