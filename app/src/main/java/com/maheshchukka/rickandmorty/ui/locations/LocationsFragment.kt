@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.maheshchukka.rickandmorty.databinding.FragmentLocationsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,8 +24,7 @@ class LocationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val locationsViewModel =
-            ViewModelProvider(this).get(LocationsViewModel::class.java)
+        val locationsViewModel: LocationsViewModel by viewModels()
 
         _binding = FragmentLocationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
