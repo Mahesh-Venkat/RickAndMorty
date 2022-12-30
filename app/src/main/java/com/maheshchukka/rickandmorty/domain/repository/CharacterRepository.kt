@@ -4,7 +4,7 @@ import com.maheshchukka.rickandmorty.domain.model.CharacterModel
 import com.maheshchukka.rickandmorty.util.Resource
 import kotlinx.coroutines.flow.Flow
 
-interface RickAndMortyRepository {
+interface CharacterRepository {
     suspend fun getCharacters(
         fetchFromRemote: Boolean
     ): Flow<Resource<List<CharacterModel>>>

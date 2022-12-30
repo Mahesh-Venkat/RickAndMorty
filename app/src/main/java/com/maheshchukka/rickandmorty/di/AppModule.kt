@@ -5,8 +5,8 @@ import androidx.room.Room
 import com.maheshchukka.rickandmorty.data.local.RickAndMortyDatabase
 import com.maheshchukka.rickandmorty.data.remote.RickyAndMortyApi
 import com.maheshchukka.rickandmorty.data.remote.RickyAndMortyApi.Companion.BASE_URL
-import com.maheshchukka.rickandmorty.data.repository.RickAndMortyRepositoryImpl
-import com.maheshchukka.rickandmorty.domain.repository.RickAndMortyRepository
+import com.maheshchukka.rickandmorty.data.repository.CharacterRepositoryImpl
+import com.maheshchukka.rickandmorty.domain.repository.CharacterRepository
 import com.maheshchukka.rickandmorty.domain.usecases.GetCharactersUseCase
 import dagger.Module
 import dagger.Provides
@@ -56,13 +56,13 @@ object AppModule {
     fun provideRickAndMortyRepository(
         rickAndMortyDatabase: RickAndMortyDatabase,
         rickyAndMortyApi: RickyAndMortyApi
-    ): RickAndMortyRepository {
-        return RickAndMortyRepositoryImpl(database = rickAndMortyDatabase, api = rickyAndMortyApi)
+    ): CharacterRepository {
+        return CharacterRepositoryImpl(database = rickAndMortyDatabase, api = rickyAndMortyApi)
     }
 
     @Provides
     @Singleton
-    fun provideGetCharactersUseCase(rickAndMortyRepository: RickAndMortyRepository): GetCharactersUseCase {
-        return GetCharactersUseCase(rickAndMortyRepository = rickAndMortyRepository)
+    fun provideGetCharactersUseCase(characterRepository: CharacterRepository): GetCharactersUseCase {
+        return GetCharactersUseCase(characterRepository = characterRepository)
     }
 }

@@ -1,23 +1,22 @@
 package com.maheshchukka.rickandmorty.data.repository
 
-import androidx.lifecycle.Transformations.map
 import com.maheshchukka.rickandmorty.data.local.RickAndMortyDatabase
 import com.maheshchukka.rickandmorty.data.mapper.toCharacter
 import com.maheshchukka.rickandmorty.data.mapper.toCharacterEntity
 import com.maheshchukka.rickandmorty.data.remote.RickyAndMortyApi
 import com.maheshchukka.rickandmorty.data.remote.dto.CharacterResult
 import com.maheshchukka.rickandmorty.domain.model.CharacterModel
-import com.maheshchukka.rickandmorty.domain.repository.RickAndMortyRepository
+import com.maheshchukka.rickandmorty.domain.repository.CharacterRepository
 import com.maheshchukka.rickandmorty.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class RickAndMortyRepositoryImpl(
+class CharacterRepositoryImpl(
     private val api: RickyAndMortyApi,
     private val database: RickAndMortyDatabase
-) : RickAndMortyRepository {
+) : CharacterRepository {
     private val dao = database.characterDao
 
     /**
