@@ -3,11 +3,11 @@ package com.maheshchukka.rickandmorty.data.remote.dto
 import com.squareup.moshi.Json
 
 data class CharacterDto(
-    @field:Json(name = "info") val info: CharacterPagingInfo,
+    @field:Json(name = "info") val info: Info,
     @field:Json(name = "results") val results: List<CharacterResult>
 )
 
-data class CharacterPagingInfo(
+data class Info(
     @field:Json(name = "count") val count: Int?,
     @field:Json(name = "pages") val pages: Int?,
     @field:Json(name = "next") val next: String?,
