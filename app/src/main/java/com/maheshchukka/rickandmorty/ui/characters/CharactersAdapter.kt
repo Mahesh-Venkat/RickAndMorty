@@ -10,6 +10,7 @@ import coil.transform.CircleCropTransformation
 import com.maheshchukka.rickandmorty.R
 import com.maheshchukka.rickandmorty.databinding.CharacterViewItemBinding
 import com.maheshchukka.rickandmorty.domain.model.CharacterModel
+import com.maheshchukka.rickandmorty.ui.util.loadImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -82,12 +83,7 @@ class CharactersAdapter(private val clickListener: CharacterItemListener) :
                 item.status
                     ?: binding.characterStatus.context.getString(R.string.shared_label_unavailable)
             )
-            binding.characterImage.load(item.imageUrl) {
-                crossfade(true)
-                placeholder(R.drawable.ic_placeholder)
-                error(R.drawable.ic_broken_image)
-                transformations(CircleCropTransformation())
-            }
+            binding.characterImage.loadImage(item.imageUrl)
             binding.parent.setOnClickListener { clickListener.onClick(characterModel = item) }
         }
 

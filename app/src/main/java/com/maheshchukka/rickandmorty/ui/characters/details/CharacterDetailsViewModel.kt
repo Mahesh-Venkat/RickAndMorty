@@ -1,10 +1,8 @@
-package com.maheshchukka.rickandmorty.ui.characters
+package com.maheshchukka.rickandmorty.ui.characters.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.maheshchukka.rickandmorty.domain.usecases.GetCharactersUseCase
+import androidx.lifecycle.*
+import com.maheshchukka.rickandmorty.domain.usecases.GetCharacterDetailsUseCase
+import com.maheshchukka.rickandmorty.ui.characters.CharacterEvent
 import com.maheshchukka.rickandmorty.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,8 +13,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class CharactersViewModel @Inject constructor(
-    private val getCharactersUseCase: GetCharactersUseCase
+class CharacterDetailsViewModel @Inject constructor(
+    private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
@@ -24,11 +23,13 @@ class CharactersViewModel @Inject constructor(
     }
     val text: LiveData<String> = _text
 
-    private val _state = MutableStateFlow<CharacterState>(CharacterState())
-    val state: StateFlow<CharacterState> = _state
+    val characterId = savedStateHandle.get<Long>("characterId") ?: Long.MIN_VALUE
+
+    private val _state = MutableStateFlow<CharacterDetailsState>(CharacterDetailsState())
+    val state: StateFlow<CharacterDetailsState> = _state
 
     init {
-        getCharacters()
+        getCharacterDetails(characterId = characterId)
     }
 
     fun onEvent(event: CharacterEvent) {
@@ -37,23 +38,24 @@ class CharactersViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     isRefreshing = true
                 )
-                getCharacters(fetchFromRemote = true)
+                getCharacterDetails(fetchFromRemote = true, characterId = characterId)
             }
         }
     }
 
-    private fun getCharacters(
-        fetchFromRemote: Boolean = false
+    private fun getCharacterDetails(
+        fetchFromRemote: Boolean = false,
+        characterId: Long
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            getCharactersUseCase(fetchFromRemote = fetchFromRemote)
+            getCharacterDetailsUseCase(fetchFromRemote = fetchFromRemote, characterId = characterId)
                 .collect { result ->
                     when (result) {
                         is Resource.Success -> {
-                            result.data?.let { characters ->
+                            result.data?.let { characterModel ->
                                 withContext(Dispatchers.Main) {
                                     _state.value = state.value.copy(
-                                        characters = characters,
+                                        character = characterModel,
                                         error = null,
                                         isRefreshing = false
                                     )
