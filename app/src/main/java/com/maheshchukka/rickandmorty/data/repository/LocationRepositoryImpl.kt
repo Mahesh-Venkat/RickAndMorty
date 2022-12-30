@@ -90,7 +90,7 @@ class LocationRepositoryImpl(
                             data = dao
                                 .getLocations()
                                 .map { locationEntity -> locationEntity.toLocation() }
-                                .sortedByDescending { location -> location.name }
+                                .sortedBy { location -> location.name }
                         )
                     )
                     emit(Resource.Loading(isLoading = false))
