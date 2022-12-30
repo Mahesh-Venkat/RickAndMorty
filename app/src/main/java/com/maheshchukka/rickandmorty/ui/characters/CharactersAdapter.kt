@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.maheshchukka.rickandmorty.R
 import com.maheshchukka.rickandmorty.databinding.CharacterViewItemBinding
 import com.maheshchukka.rickandmorty.domain.model.CharacterModel
@@ -14,10 +16,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.IllegalArgumentException
 
-private val ITEM_VIEW_TYPE_HEADER = 0
-private val ITEM_VIEW_TYPE_ITEM = 1
+private const val ITEM_VIEW_TYPE_HEADER = 0
+private const val ITEM_VIEW_TYPE_ITEM = 1
 
-class CharactersAdapter(val clickListener: CharacterItemListener) :
+class CharactersAdapter(private val clickListener: CharacterItemListener) :
     ListAdapter<DataItem, RecyclerView.ViewHolder>(CharacterDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
@@ -73,8 +75,19 @@ class CharactersAdapter(val clickListener: CharacterItemListener) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: CharacterModel, clickListener: CharacterItemListener) {
-            binding.characterName.text = item.name ?: "N/A"
-            binding.characterStatus.text = item.status ?: "N/A"
+            binding.characterName.text = item.name
+                ?: binding.characterName.context.getString(R.string.shared_label_unavailable)
+            binding.characterStatus.text = binding.characterStatus.context.getString(
+                R.string.character_status_label,
+                item.status
+                    ?: binding.characterStatus.context.getString(R.string.shared_label_unavailable)
+            )
+            binding.characterImage.load(item.imageUrl) {
+                crossfade(true)
+                placeholder(R.drawable.ic_placeholder)
+                error(R.drawable.ic_broken_image)
+                transformations(CircleCropTransformation())
+            }
             binding.parent.setOnClickListener { clickListener.onClick(characterModel = item) }
         }
 
