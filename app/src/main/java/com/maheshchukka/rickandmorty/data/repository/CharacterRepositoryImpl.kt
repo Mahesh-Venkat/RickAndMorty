@@ -38,7 +38,7 @@ class CharacterRepositoryImpl(
                 Resource.Success(
                     data = localGetCharacters.map { characterEntity ->
                         characterEntity.toCharacter()
-                    }.sortedByDescending { character -> character.name }
+                    }.sortedBy { character -> character.name }
                 )
             )
             val isDbEmpty = localGetCharacters.isEmpty()
@@ -51,14 +51,14 @@ class CharacterRepositoryImpl(
 
             val remoteCharacters = try {
                 var pageNumber = 1
-                var characterResults = mutableListOf<CharacterResult>()
+                val characterResults = mutableListOf<CharacterResult>()
                 do {
                     val currentCharacters =
                         api.getCharacters(page = pageNumber++)
                     characterResults.addAll(currentCharacters.results)
                 } while (currentCharacters.info.next != null)
 
-                characterResults.sortedByDescending { characterResult -> characterResult.name }
+                characterResults.sortedBy { characterResult -> characterResult.name }
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error(message = "Couldn't load data", data = null))
@@ -90,7 +90,7 @@ class CharacterRepositoryImpl(
                             data = dao
                                 .getCharacters()
                                 .map { characterEntity -> characterEntity.toCharacter() }
-                                .sortedByDescending { character -> character.name }
+                                .sortedBy { character -> character.name }
                         )
                     )
                     emit(Resource.Loading(isLoading = false))

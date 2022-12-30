@@ -38,7 +38,7 @@ class LocationRepositoryImpl(
                 Resource.Success(
                     data = localGetLocations.map { locationEntity ->
                         locationEntity.toLocation()
-                    }.sortedByDescending { location -> location.name }
+                    }.sortedBy { location -> location.name }
                 )
             )
             val isDbEmpty = localGetLocations.isEmpty()
@@ -58,7 +58,7 @@ class LocationRepositoryImpl(
                     locationResults.addAll(currentLocations.results)
                 } while (currentLocations.info.next != null)
 
-                locationResults.sortedByDescending { locationResult -> locationResult.name }
+                locationResults.sortedBy { locationResult -> locationResult.name }
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error(message = "Couldn't load data", data = null))
