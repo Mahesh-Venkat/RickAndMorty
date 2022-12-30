@@ -58,7 +58,7 @@ class CharacterRepositoryImpl(
                     characterResults.addAll(currentCharacters.results)
                 } while (currentCharacters.info.next != null)
 
-                characterResults.sortedBy { characterResult -> characterResult.name }
+                characterResults
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error(message = "Couldn't load data", data = null))

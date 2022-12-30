@@ -34,6 +34,9 @@ class CharactersViewModel @Inject constructor(
     fun onEvent(event: CharacterEvent) {
         when (event) {
             is CharacterEvent.Refresh -> {
+                _state.value = state.value.copy(
+                    isRefreshing = true
+                )
                 getCharacters(fetchFromRemote = true)
             }
         }
@@ -51,7 +54,8 @@ class CharactersViewModel @Inject constructor(
                                 withContext(Dispatchers.Main) {
                                     _state.value = state.value.copy(
                                         characters = characters,
-                                        error = null
+                                        error = null,
+                                        isRefreshing = false
                                     )
                                 }
                             }

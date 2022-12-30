@@ -58,7 +58,7 @@ class LocationRepositoryImpl(
                     locationResults.addAll(currentLocations.results)
                 } while (currentLocations.info.next != null)
 
-                locationResults.sortedBy { locationResult -> locationResult.name }
+                locationResults
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error(message = "Couldn't load data", data = null))

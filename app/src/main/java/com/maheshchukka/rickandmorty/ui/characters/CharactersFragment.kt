@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maheshchukka.rickandmorty.databinding.FragmentCharactersBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -37,7 +36,7 @@ class CharactersFragment : Fragment() {
     ): View {
         _binding = FragmentCharactersBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        binding.swipeContainer.setOnRefreshListener { charactersViewModel.onEvent(CharacterEvent.Refresh) }
         setupObserver()
 
         return root
@@ -72,6 +71,8 @@ class CharactersFragment : Fragment() {
                         binding.emptyList.visibility = GONE
                         binding.retryButton.visibility = GONE
                         binding.list.visibility = GONE
+                    } else if (state.isRefreshing) {
+                        binding.swipeContainer.isRefreshing = state.isRefreshing
                     } else {
                         binding.progressBar.visibility = GONE
                         binding.list.visibility = GONE
