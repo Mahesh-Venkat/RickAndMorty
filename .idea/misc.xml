@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/character_view_item.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_characters.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_characters_details.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_location_details.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_locations.xml" value="0.1" />
         <entry key="app/src/main/res/layout/header.xml" value="0.2898550724637681" />
         <entry key="app/src/main/res/layout/location_view_item.xml" value="0.1" />

@@ -19,7 +19,11 @@
         android:id="@+id/navigation_locations"
         android:name="com.maheshchukka.rickandmorty.ui.locations.LocationsFragment"
         android:label="@string/title_locations"
-        tools:layout="@layout/fragment_locations" />
+        tools:layout="@layout/fragment_locations" >
+        <action
+            android:id="@+id/action_locationsFragment_to_locationDetails"
+            app:destination="@id/navigation_locations_details" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_characters_details"
@@ -29,6 +33,16 @@
         <argument
             android:name="characterId"
             app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_locations_details"
+        android:name="com.maheshchukka.rickandmorty.ui.locations.details.LocationDetailsFragment"
+        android:label="@string/title_location_details"
+        tools:layout="@layout/fragment_location_details" >
+        <argument
+            android:name="infoUrl"
+            app:argType="string" />
     </fragment>
 
 </navigation>
