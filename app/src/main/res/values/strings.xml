@@ -2,4 +2,8 @@
     <string name="app_name">RickAndMorty</string>
     <string name="title_characters">Characters</string>
     <string name="title_locations">Locations</string>
+    <string name="no_results">No results</string>
+    <string name="retry">Retry</string>
+    <string name="loading">Loading</string>
+    <string name="header_characters">Characters</string>
 </resources>

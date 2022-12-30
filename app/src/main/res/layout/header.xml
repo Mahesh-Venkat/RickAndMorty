@@ -1,0 +1,12 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/header_characters"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:textColor="@color/black"
+    android:layout_marginStart="@dimen/dp_16"
+    android:layout_marginTop="@dimen/dp_16"
+    android:layout_marginEnd="@dimen/dp_16"
+    android:background="@color/white"
+    android:padding="@dimen/dp_8"/>

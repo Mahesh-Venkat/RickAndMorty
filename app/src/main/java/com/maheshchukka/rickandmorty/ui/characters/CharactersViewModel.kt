@@ -27,6 +27,10 @@ class CharactersViewModel @Inject constructor(
     private val _state = MutableStateFlow<CharacterState>(CharacterState())
     val state: StateFlow<CharacterState> = _state
 
+    init {
+        getCharacters()
+    }
+
     fun onEvent(event: CharacterEvent) {
         when (event) {
             is CharacterEvent.Refresh -> {
