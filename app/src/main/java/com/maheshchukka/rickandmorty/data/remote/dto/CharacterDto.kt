@@ -7,13 +7,6 @@ data class CharacterDto(
     @field:Json(name = "results") val results: List<CharacterResult>
 )
 
-data class Info(
-    @field:Json(name = "count") val count: Int?,
-    @field:Json(name = "pages") val pages: Int?,
-    @field:Json(name = "next") val next: String?,
-    @field:Json(name = "prev") val prev: String?
-)
-
 data class CharacterResult(
     @field:Json(name = "id") val id: Long,
     @field:Json(name = "name") val name: String?,
