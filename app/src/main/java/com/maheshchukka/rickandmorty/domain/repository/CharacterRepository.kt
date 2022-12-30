@@ -8,4 +8,9 @@ interface CharacterRepository {
     suspend fun getCharacters(
         fetchFromRemote: Boolean
     ): Flow<Resource<List<CharacterModel>>>
+
+    suspend fun getCharacterDetails(
+        fetchFromRemote: Boolean,
+        characterId: Long
+    ): Flow<Resource<CharacterModel>>
 }

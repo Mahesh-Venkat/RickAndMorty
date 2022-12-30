@@ -106,4 +106,63 @@ class CharacterRepositoryImpl(
             }
         }
     }
+
+    override suspend fun getCharacterDetails(
+        fetchFromRemote: Boolean,
+        characterId: Long
+    ): Flow<Resource<CharacterModel>> {
+        return flow {
+            emit(Resource.Loading(isLoading = true))
+
+            val localGetCharacterDetails = dao.getCharacterDetails(characterId)
+
+            emit(
+                Resource.Success(
+                    data = localGetCharacterDetails?.toCharacter()
+                )
+            )
+            val isDbEmpty = localGetCharacterDetails == null
+            val justLoadCharacterDetailsFromCache = !isDbEmpty && !fetchFromRemote
+
+            if (justLoadCharacterDetailsFromCache) {
+                emit(Resource.Loading(isLoading = false))
+                return@flow
+            }
+
+            val remoteCharacterDetails = try {
+                api.getCharacters(characterId)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error(message = "Couldn't load data", data = null))
+                emit(Resource.Loading(isLoading = false))
+                null
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error(message = "Couldn't load data", data = null))
+                emit(Resource.Loading(isLoading = false))
+                null
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emit(Resource.Error(message = "Couldn't load data", data = null))
+                emit(Resource.Loading(isLoading = false))
+                null
+            }
+
+            remoteCharacterDetails?.let { remoteCharacter ->
+                dao.clearCharacters()
+
+                dao.insertCharacterEntity(
+                    remoteCharacter.toCharacterEntity()
+                )
+
+                emit(
+                    Resource.Success(
+                        data = dao
+                            .getCharacterDetails(characterId = characterId)?.toCharacter()
+                    )
+                )
+                emit(Resource.Loading(isLoading = false))
+            }
+        }
+    }
 }

@@ -9,6 +9,7 @@ import com.maheshchukka.rickandmorty.data.repository.CharacterRepositoryImpl
 import com.maheshchukka.rickandmorty.data.repository.LocationRepositoryImpl
 import com.maheshchukka.rickandmorty.domain.repository.CharacterRepository
 import com.maheshchukka.rickandmorty.domain.repository.LocationRepository
+import com.maheshchukka.rickandmorty.domain.usecases.GetCharacterDetailsUseCase
 import com.maheshchukka.rickandmorty.domain.usecases.GetCharactersUseCase
 import com.maheshchukka.rickandmorty.domain.usecases.GetLocationsUseCase
 import dagger.Module
@@ -82,5 +83,11 @@ object AppModule {
     @Singleton
     fun provideGetLocationsUseCase(locationRepository: LocationRepository): GetLocationsUseCase {
         return GetLocationsUseCase(locationRepository = locationRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetCharacterDetailsUseCase(characterRepository: CharacterRepository): GetCharacterDetailsUseCase {
+        return GetCharacterDetailsUseCase(characterRepository = characterRepository)
     }
 }
